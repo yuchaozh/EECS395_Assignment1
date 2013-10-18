@@ -4,7 +4,6 @@
  *Time: 10/16/2013
  */
 #include "LinkedStack.h"
-#include "Node.h"
 #include <iostream>
 
 using namespace std;
@@ -22,8 +21,9 @@ LinkedStack::~LinkedStack()
 	node* current = first;
 	while (current)
 	{
-		delete current; 
+		node *to_free = current;
 		current = current->next;
+		delete to_free;
 	}
 }
 
@@ -70,7 +70,7 @@ int LinkedStack::top()
 	conductor = first;
 	if (empty() == true)
 	{
-		cout<<"no node (top)"<<endl;
+		//cout<<"no node (top)"<<endl;
 	}
 	else
 	{
@@ -80,6 +80,7 @@ int LinkedStack::top()
 			conductor = conductor -> next;
 		}
 		//previous -> next = NULL;
+		//return conductor -> d;
 	}
 	return conductor -> d;
 }
@@ -136,26 +137,26 @@ void LinkedStack::traverse()
 	}
 }
 
-int main()
-{
-	LinkedStack* ls = new LinkedStack();
-	//ls -> pop();
-	//ls -> top();
-	ls -> push(9);
-	ls -> push(3);
-	ls -> push(6);
-	ls -> push(1);
-	ls -> push(0);
-	ls ->traverse();
-	while (ls -> empty() == false)
-	{
-		int i = 0;
-		int a = 0;
-		a = ls -> top();
-		i = ls -> pop();
-		cout<<" top: "<<a<<endl;
-		cout<<" pop: "<<i<<endl;
-	}
-	system("Pause");
-	return 0;
-}
+//int main()
+//{
+//	LinkedStack ls;
+//	//ls -> pop();
+//	//ls -> top();
+//	ls.push(9);
+//	ls.push(3);
+//	ls.push(6);
+//	ls.push(1);
+//	ls.push(0);
+//	ls.traverse();
+//	//while (ls.empty() == false)
+//	//{
+//	//	int i = 0;
+//	//	int a = 0;
+//	//	a = ls.top();
+//	//	i = ls.pop();
+//	//	cout<<" top: "<<a<<endl;
+//	//	cout<<" pop: "<<i<<endl;
+//	//}
+//	system("Pause");
+//	return 0;
+//}

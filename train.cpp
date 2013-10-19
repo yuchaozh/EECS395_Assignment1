@@ -62,11 +62,6 @@ bool outputFromHoldTrack(int tNumber)
 			//outputFromHoldTrack£¨targetNumber£©;
 			//return output;
 		}
-		else
-		{
-			//output = false;
-			//return output;
-		}
 	}
 	return output;
 }
@@ -372,14 +367,14 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 
 int main()
 {
-	//int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9}; //4
+	int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9}; //4
 	//int cars[9] = {7, 5, 3, 4, 1, 2, 6, 9, 8};
-	int cars[9] = {1, 9, 8, 7, 6, 5, 4, 3, 2};
+	//int cars[9] = {1, 9, 8, 7, 6, 5, 4, 3, 2};
 	 //int cars[9] = {7, 5, 1, 4, 9, 3, 2, 8, 6};  //3
 	//int cars[9] = {9,9,9,9,9,9,9};
 	 //int cars[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 	//int cars[4] = {7, 6, 1, 5};
-	Railroad(cars, 9, 8);
+	Railroad(cars, 9, 4);
 
 	//fstream file("input.txt");
 	////fstream file("input2.txt");
@@ -423,7 +418,6 @@ int main()
 	//	//cout<<"car: "<<c<<endl;
 	//	//Railroad(cn, cn, sn);
 	//}
-
 
 	//file.close();
 	system("pause");

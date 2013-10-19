@@ -1,5 +1,5 @@
 /*
- *Purpose: Implement basic function of stack by linked list
+ *Purpose: Implement basic functions of stack by linked list
  *Author: Yuchao Zhou
  *Time: 10/16/2013
  */
@@ -19,9 +19,11 @@ LinkedStack::LinkedStack()
 LinkedStack::~LinkedStack()
 {
 	node* current = first;
+	node *to_free;
 	while (current)
 	{
-		node *to_free = current;
+		to_free = current;
+		//node *to_free = current;
 		current = current->next;
 		delete to_free;
 	}
@@ -38,16 +40,16 @@ void LinkedStack::push(int num)
 {
 	node* conductor;
 	conductor = first;
-	if (conductor -> next== NULL)
-	{
-		node* add;
-		add = new node();
-		add -> d = num;
-		add -> next = NULL;
-		conductor -> next = add;
-	}
-	else
-	{
+	//if (conductor -> next== NULL)
+	//{
+	//	node* add;
+	//	add = new node();
+	//	add -> d = num;
+	//	add -> next = NULL;
+	//	conductor -> next = add;
+	//}
+	//else
+	//{
 
 		while (conductor -> next != 0)
 		{
@@ -58,29 +60,24 @@ void LinkedStack::push(int num)
 		add -> d = num;
 		add -> next = NULL;
 		conductor -> next = add;
-	}
+	//}
 }
 
 //return the element at the top
 int LinkedStack::top()
 {
 	node* conductor;
-	//node* previous;
-	//previous = first;
 	conductor = first;
 	if (empty() == true)
 	{
-		//cout<<"no node (top)"<<endl;
+		//cout<<"the stack is empty"<<endl;
 	}
 	else
 	{
 		while (conductor -> next != 0)
 		{
-			//previous = conductor;
 			conductor = conductor -> next;
 		}
-		//previous -> next = NULL;
-		//return conductor -> d;
 	}
 	return conductor -> d;
 }
@@ -88,15 +85,12 @@ int LinkedStack::top()
 //return a boolean value indicating whether no elements are stored
 bool LinkedStack::empty()
 {
-	//cout<<"empty function"<<endl;
 	if (first -> next == NULL)
 	{
-		//cout<<"empty"<<endl;
 		return true;
 	}
 	else
 	{
-		//cout<<"not empty"<<endl;
 		return false;
 	}
 }
@@ -129,7 +123,6 @@ void LinkedStack::traverse()
 {
 	node* current;
 	current = first -> next;
-	//while (current)
 	while (current)
 	{
 		cout<<current -> d<<endl;
@@ -139,24 +132,11 @@ void LinkedStack::traverse()
 
 //int main()
 //{
-//	LinkedStack ls;
-//	//ls -> pop();
-//	//ls -> top();
-//	ls.push(9);
-//	ls.push(3);
-//	ls.push(6);
-//	ls.push(1);
-//	ls.push(0);
-//	ls.traverse();
-//	//while (ls.empty() == false)
-//	//{
-//	//	int i = 0;
-//	//	int a = 0;
-//	//	a = ls.top();
-//	//	i = ls.pop();
-//	//	cout<<" top: "<<a<<endl;
-//	//	cout<<" pop: "<<i<<endl;
-//	//}
-//	system("Pause");
+//	LinkedStack stack;
+//	stack.push(2);
+//	stack.push(9);
+//	stack.traverse();
+//
+//	system("pause");
 //	return 0;
 //}

@@ -5,19 +5,32 @@
  */
 #include <iostream>
 #include <vector>
+#include <string>
 #include <fstream>
 #include <stdio.h>
+#include <stdlib.h>
+#include<sstream>
 #include "LinkedStack.h"
 
 using namespace std;
 
+bool success = false;
 int times = 0;
 vector<LinkedStack> stack;
 vector<int> result;
-
+vector<string> procedure;
+string str;
 int targetNumber = 1;
 int carNumber = 0;
 bool output = false;
+
+string int_string(int num)
+{
+	stringstream ss;
+	ss<<num;
+	string s=ss.str();
+	return s;
+}
 
 //outputs instructions to ove a car from a holding track to the output track.
 bool outputFromHoldTrack(int tNumber)
@@ -25,22 +38,27 @@ bool outputFromHoldTrack(int tNumber)
 	output = false;
 	int once = 0;
 	targetNumber = tNumber;
-	cout<<"target: "<<targetNumber<<endl;
+	//cout<<"target: "<<targetNumber<<endl;
 	for (int i = 0; i < stack.size(); i++)
 	{
 		int posible = stack[i].top();
-		cout<<"posible "<<i<<": "<<posible<<endl;
+		//cout<<"posible "<<i<<": "<<posible<<endl;
 		
 		if (posible == targetNumber)
 		{
-			cout<<"bingo in stack"<<endl;
+			//cout<<"bingo in stack"<<endl;
+			//cout<<"Move car "<<posible<<" from holding track "<<i<<" to output"<<endl;
+			str = "Move car " + int_string(posible) + " from holding track " + int_string(i) + " to output";
+			procedure.push_back(str);
+			//cout<<str<<endl;
+
 			result.push_back(stack[i].pop());
 			//carNumber--;
 			targetNumber++;
-			cout<<"next targetNumber: "<<targetNumber<<endl;
+			//cout<<"next targetNumber: "<<targetNumber<<endl;
 			output = true;
 			once = 1;
-			cout<<"output: "<<output<<endl;
+			//cout<<"output: "<<output<<endl;
 			//outputFromHoldTrack（targetNumber）;
 			//return output;
 		}
@@ -82,25 +100,28 @@ bool putinHold(int c)
 	{
 		stack[0].push(c);
 		contain++;
-		cout<<"push "<<c<<" into stack 0"<<endl;
-		cout<<"now:"<<endl;
+		//cout<<"holding track 0 hold car "<<c<<endl;
+		str = "holding track 0 hold car "+int_string(c);
+		procedure.push_back(str);
+		//cout<<str<<endl;
+		//cout<<"now:"<<endl;
 		for (int i = 0; i < stack.size(); i++)
 		{
-			cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
 		}
 	}
 	else  //判断是否比已插入数字的stack的top大，如果大插入新的stack，如果小插在原先stack的上面
 	{
-		cout<<"previous:"<<endl;
+		//cout<<"previous:"<<endl;
 		for (int i = 0; i < stack.size(); i++)
 		{
-			cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
 			if (stack[i].top() != 0)
 			{
 				contain++;
 			}
 		}
-		cout<<contain<<" stack has content "<<endl;
+		//cout<<contain<<" stack has content "<<endl;
 		//比较大小
 		int currentGap = 0;
 		int previousGap = 0;
@@ -113,11 +134,15 @@ bool putinHold(int c)
 			if (c < stack[i].top())
 			{
 				stack[i].push(c);
-				cout<<"push "<<c<<" into stack "<<i<<endl;
-				cout<<"now:"<<endl;
+				//cout<<"push "<<c<<" into stack "<<i<<endl;
+				//cout<<"holding track "<<i<<" hold car "<<c<<endl;
+				str = "holding track " + int_string(i) + " hold car " + int_string(c);
+				procedure.push_back(str);
+				//cout<<str<<endl;
+				//cout<<"now:"<<endl;
 				for (int i = 0; i < stack.size(); i++)
 				{
-					cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
 				}
 				break;
 			}
@@ -125,15 +150,19 @@ bool putinHold(int c)
 			{
 				stack[contain].push(c);
 				contain++;
-				cout<<"push "<<c<<"into stack "<<contain-1<<endl;
-				cout<<"now:"<<endl;
+				//cout<<"push "<<c<<"into stack "<<contain-1<<endl;
+				//cout<<"holding track "<<contain-1<<" hold car "<<c<<endl;
+				str = "holding track " + int_string(contain -1) + " hold car " + int_string(c);
+				procedure.push_back(str);
+				//cout<<str<<endl;
+				//cout<<"now:"<<endl;
 				for (int i = 0; i < stack.size(); i++)
 				{
-					cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
 				}
 				if (contain == stack.size())
 				{
-					cout<<"stacks are full "<<endl;
+					//cout<<"stacks are full "<<endl;
 				}
 				break;
 			}
@@ -267,59 +296,136 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 	}
 	cout<<endl;
 
-	cout<<"totle number of cars: "<<totle<<endl<<endl;
+	//cout<<"totle number of cars: "<<totle<<endl<<endl;
 
 	while (carNumber > 0)
 	{
 		int currentNumber = inputOrder[carNumber - 1];
-		cout<<"~~~~~~~~~~~~~~"<<endl;
-		cout<<"the size of cars: "<<carNumber<<endl;
-		cout<<"the current number is : "<<currentNumber<<endl;
+		//cout<<"~~~~~~~~~~~~~~"<<endl;
+		//cout<<"the size of cars: "<<carNumber<<endl;
+		//cout<<"the current number is : "<<currentNumber<<endl;
 		//int targetNumber = totle - carNumber + 1;
-		cout<<"the target number is : "<<targetNumber<<endl;
+		//cout<<"the target number is : "<<targetNumber<<endl;
 
 		//如果currentNumber不等于targetNumber，则放入stack中
 		if (currentNumber != targetNumber)
 		{
-			cout<<"currentNumber is not equal to targetNumber"<<endl;
+			//cout<<"currentNumber is not equal to targetNumber"<<endl;
 			putinHold(currentNumber);
 			carNumber--;
 		}
 		//把currentNumber直接放到output序列中，并且查看stack和input
 		else
 		{
-			cout<<"bingo in input"<<endl;
+			//cout<<"bingo in input"<<endl;
+			//cout<<"Move car "<<currentNumber<<" from input to output"<<endl;
+			str = "Move car "+ int_string(currentNumber) + " from input to output ";
+			procedure.push_back(str);
+			//cout<<str<<endl;
 			result.push_back(currentNumber);
 			carNumber--;
 			targetNumber++;
 			outputFromHoldTrack(targetNumber);
 			while (output == true)
 			{
-				cout<<"here again"<<endl;
+				//cout<<"here again"<<endl;
 				outputFromHoldTrack(targetNumber);
 			}
 		}
 
 		//输出output的序列
-		cout<<"the output vector: ";
+		//cout<<"the output vector: ";
 		for (int i = 0; i < result.size(); i++)
 		{
-			cout<<result[i]<<" ";
+			//cout<<result[i]<<" ";
 		}
-		cout<<endl<<endl;
-		cout<<"carNumber: "<<carNumber<<endl;
+		//cout<<endl<<endl;
+		//cout<<"carNumber: "<<carNumber<<endl;
+		//判断是否成功
+		if (carNumber == 0)
+		{
+			if (result.size() == numberofCars)
+			{
+				success = true;
+				cout<<"successful!"<<endl;
+				for (int i = 0; i < procedure.size(); i++)
+				{
+					cout<<procedure[i]<<endl;
+				}
+			}
+			else
+			{
+				success = false;
+				//cout<<"unsuccessful!"<<endl;
+				//cout<<inputOrder[1]<<endl;
+				for (int a = 0; a < totle - 1; a++)
+				{
+					cout<<inputOrder[a]<<"-";
+				}
+				cout<<inputOrder[totle -1];
+				cout<<" is not feasible"<<endl;
+			}
+		}
 	}
 	return done;
 }
 
 int main()
 {
-	//int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9};
-	 //int cars[9] = {7, 5, 1, 4, 9, 3, 2, 8, 6};
-	 int cars[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	//int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9}; //4
+	//int cars[9] = {7, 5, 3, 4, 1, 2, 6, 9, 8};
+	int cars[9] = {1, 9, 8, 7, 6, 5, 4, 3, 2};
+	 //int cars[9] = {7, 5, 1, 4, 9, 3, 2, 8, 6};  //3
+	//int cars[9] = {9,9,9,9,9,9,9};
+	 //int cars[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 	//int cars[4] = {7, 6, 1, 5};
-	Railroad(cars, 9, 1);
-	//putinHold(7);
+	Railroad(cars, 9, 8);
+
+	//fstream file("input.txt");
+	////fstream file("input2.txt");
+	//if (!file)
+	//{
+	//	cout<<"Can not open the txt!"<<endl;
+	//}
+	//else
+	//{
+	//	//cout<<"open txt sucessfully!"<<endl;
+	//	string car_number;
+	//	string stack_number;
+	//	string car;
+	//	const char *d = " ";
+	//	char* segment;
+
+	//	getline(file, car_number);
+	//	const int cn = atoi(car_number.c_str());
+	//	cout<<"car number: "<<cn<<endl;
+	//	
+	//	int cars[9];
+
+	//	getline(file, stack_number);
+	//	int sn = atoi(stack_number.c_str());
+	//	cout<<"stack number: "<<sn<<endl;
+	//	
+	//	getline(file,car);
+	//	char* p=const_cast<char*>(car.c_str()); 
+	//	segment = strtok(p, d);
+	//	while(segment)
+	//	{
+	//		cout<<segment<<endl;
+	//		segment = strtok(NULL, d);
+	//		int a = atoi(segment);
+	//		//cout<<a<<endl;
+	//	}
+
+	//	//int c = atoi(car.c_str());
+	//	//p = strtok(car, " ");
+	//	
+	//	//cout<<"car: "<<c<<endl;
+	//	//Railroad(cn, cn, sn);
+	//}
+
+
+	//file.close();
 	system("pause");
 	return 0;
 }

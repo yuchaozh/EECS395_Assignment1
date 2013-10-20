@@ -24,6 +24,12 @@ int targetNumber = 1;
 int carNumber = 0;
 bool output = false;
 
+
+LinkedStack stack1;
+LinkedStack stack2;
+int stack_number = 0;
+
+
 string int_string(int num)
 {
 	stringstream ss;
@@ -33,26 +39,61 @@ string int_string(int num)
 }
 
 //outputs instructions to ove a car from a holding track to the output track.
+//bool outputFromHoldTrack(int tNumber)
+//{
+//	output = false;
+//	int once = 0;
+//	targetNumber = tNumber;
+//	//cout<<"target: "<<targetNumber<<endl;
+//	for (int i = 0; i < stack.size(); i++)
+//	{
+//		int posible = stack[i].top();
+//		//cout<<"posible "<<i<<": "<<posible<<endl;
+//		
+//		if (posible == targetNumber)
+//		{
+//			//cout<<"bingo in stack"<<endl;
+//			//cout<<"Move car "<<posible<<" from holding track "<<i<<" to output"<<endl;
+//			str = "Move car " + int_string(posible) + " from holding track " + int_string(i) + " to output";
+//			procedure.push_back(str);
+//			//cout<<str<<endl;
+//
+//			result.push_back(stack[i].pop());
+//			//carNumber--;
+//			targetNumber++;
+//			//cout<<"next targetNumber: "<<targetNumber<<endl;
+//			output = true;
+//			once = 1;
+//			//cout<<"output: "<<output<<endl;
+//			//outputFromHoldTrack（targetNumber）;
+//			//return output;
+//		}
+//	}
+//	return output;
+//}
+
+
+
 bool outputFromHoldTrack(int tNumber)
 {
 	output = false;
 	int once = 0;
 	targetNumber = tNumber;
 	//cout<<"target: "<<targetNumber<<endl;
-	for (int i = 0; i < stack.size(); i++)
-	{
-		int posible = stack[i].top();
+	//for (int i = 0; i < stack.size(); i++)
+	//{
+		int posible = stack1.top();
 		//cout<<"posible "<<i<<": "<<posible<<endl;
 		
 		if (posible == targetNumber)
 		{
 			//cout<<"bingo in stack"<<endl;
 			//cout<<"Move car "<<posible<<" from holding track "<<i<<" to output"<<endl;
-			str = "Move car " + int_string(posible) + " from holding track " + int_string(i) + " to output";
+			str = "Move car " + int_string(posible) + " from holding track 1 to output";
 			procedure.push_back(str);
 			//cout<<str<<endl;
 
-			result.push_back(stack[i].pop());
+			result.push_back(stack1.pop());
 			//carNumber--;
 			targetNumber++;
 			//cout<<"next targetNumber: "<<targetNumber<<endl;
@@ -62,115 +103,170 @@ bool outputFromHoldTrack(int tNumber)
 			//outputFromHoldTrack（targetNumber）;
 			//return output;
 		}
-	}
+	//}
 	return output;
 }
 
 
+
+
 //putinHold函数要放在Railroad前面，编译从上往下，不然会出现找不到标示符
 //moves car c from the input track to one of the holding tracks if possible, else it return false.
-bool putinHold(int c)
-{
-	vector<int> temp;
-	int contain = 0;
-	bool notfull = true;
-	int notFullSlut = 0;
-	int slut = 0;
-	int smallest = 0;
-	bool result = true;
-	int finish = false;
-
-	//判断stack是否已满
-	if (contain == stack.size())
-	{
-		notfull == false;
-	}
-	else
-	{
-		notfull == true;
-	}
-
-	//如果stack 0 为空，则插入
-	if (stack[0].top() == 0)
-	{
-		stack[0].push(c);
-		contain++;
-		//cout<<"holding track 0 hold car "<<c<<endl;
-		str = "holding track 0 hold car "+int_string(c);
-		procedure.push_back(str);
-		//cout<<str<<endl;
-		//cout<<"now:"<<endl;
-		for (int i = 0; i < stack.size(); i++)
-		{
-			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
-		}
-	}
-	else  //判断是否比已插入数字的stack的top大，如果大插入新的stack，如果小插在原先stack的上面
-	{
-		//cout<<"previous:"<<endl;
-		for (int i = 0; i < stack.size(); i++)
-		{
-			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
-			if (stack[i].top() != 0)
-			{
-				contain++;
-			}
-		}
-		//cout<<contain<<" stack has content "<<endl;
-		//比较大小
-		int currentGap = 0;
-		int previousGap = 0;
-
-		for (int i = 0; i < contain; i++)
-		{
-			if (i == (contain - 1))
-					finish = true;
-			//如果小于top则插入
-			if (c < stack[i].top())
-			{
-				stack[i].push(c);
-				//cout<<"push "<<c<<" into stack "<<i<<endl;
-				//cout<<"holding track "<<i<<" hold car "<<c<<endl;
-				str = "holding track " + int_string(i) + " hold car " + int_string(c);
-				procedure.push_back(str);
-				//cout<<str<<endl;
-				//cout<<"now:"<<endl;
-				for (int i = 0; i < stack.size(); i++)
-				{
-					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
-				}
-				break;
-			}
-			else if ((finish == true) && (contain < stack.size()))
-			{
-				stack[contain].push(c);
-				contain++;
-				//cout<<"push "<<c<<"into stack "<<contain-1<<endl;
-				//cout<<"holding track "<<contain-1<<" hold car "<<c<<endl;
-				str = "holding track " + int_string(contain -1) + " hold car " + int_string(c);
-				procedure.push_back(str);
-				//cout<<str<<endl;
-				//cout<<"now:"<<endl;
-				for (int i = 0; i < stack.size(); i++)
-				{
-					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
-				}
-				if (contain == stack.size())
-				{
-					//cout<<"stacks are full "<<endl;
-				}
-				break;
-			}
-		}
-	}
-
+//bool putinHold(int c)
+//{
+//	vector<int> temp;
+//	int contain = 0;
+//	bool notfull = true;
+//	int notFullSlut = 0;
+//	int slut = 0;
+//	int smallest = 0;
+//	bool result = true;
+//	int finish = false;
+//
+//	//判断stack是否已满
+//	if (contain == stack.size())
+//	{
+//		notfull == false;
+//	}
+//	else
+//	{
+//		notfull == true;
+//	}
+//
+//	//如果stack 0 为空，则插入
+//	if (stack[0].top() == 0)
+//	{
+//		stack[0].push(c);
+//		contain++;
+//		//cout<<"holding track 0 hold car "<<c<<endl;
+//		str = "holding track 0 hold car "+int_string(c);
+//		procedure.push_back(str);
+//		//cout<<str<<endl;
+//		//cout<<"now:"<<endl;
+//		for (int i = 0; i < stack.size(); i++)
+//		{
+//			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+//		}
+//	}
+//	else  //判断是否比已插入数字的stack的top大，如果大插入新的stack，如果小插在原先stack的上面
+//	{
+//		//cout<<"previous:"<<endl;
+//		for (int i = 0; i < stack.size(); i++)
+//		{
+//			//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+//			if (stack[i].top() != 0)
+//			{
+//				contain++;
+//			}
+//		}
+//		//cout<<contain<<" stack has content "<<endl;
+//		//比较大小
+//		int currentGap = 0;
+//		int previousGap = 0;
+//
+//		for (int i = 0; i < contain; i++)
+//		{
+//			if (i == (contain - 1))
+//					finish = true;
+//			//如果小于top则插入
+//			if (c < stack[i].top())
+//			{
+//				stack[i].push(c);
+//				//cout<<"push "<<c<<" into stack "<<i<<endl;
+//				//cout<<"holding track "<<i<<" hold car "<<c<<endl;
+//				str = "holding track " + int_string(i) + " hold car " + int_string(c);
+//				procedure.push_back(str);
+//				//cout<<str<<endl;
+//				//cout<<"now:"<<endl;
+//				for (int i = 0; i < stack.size(); i++)
+//				{
+//					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+//				}
+//				break;
+//			}
+//			else if ((finish == true) && (contain < stack.size()))
+//			{
+//				stack[contain].push(c);
+//				contain++;
+//				//cout<<"push "<<c<<"into stack "<<contain-1<<endl;
+//				//cout<<"holding track "<<contain-1<<" hold car "<<c<<endl;
+//				str = "holding track " + int_string(contain -1) + " hold car " + int_string(c);
+//				procedure.push_back(str);
+//				//cout<<str<<endl;
+//				//cout<<"now:"<<endl;
+//				for (int i = 0; i < stack.size(); i++)
+//				{
+//					//cout<<"stack "<<i<<" : "<<stack[i].top()<<endl;
+//				}
+//				if (contain == stack.size())
+//				{
+//					//cout<<"stacks are full "<<endl;
+//				}
+//				break;
+//			}
+//		}
+//	}
+//
 
 			
+bool putinHold(int c)
+{
+	//cout<<"current number: "<<c<<endl;
+	
+	bool result = true;
+	//cout<<"stack1.top: "<<stack1.top()<<endl;
+	if (stack1.top() == 0)
+	{
+		stack1.push(c);
+		stack_number = 1;
+		//cout<<"init: push "<<c<<" into stack 1"<<endl;
+		cout<<"holding track "<<1<<" hold car "<<c<<endl;
+		cout<<endl;
+		//cout<<stack1.top()<<endl;
+		return result;
+	}
+	if (stack1.top() > c)
+	{
+		stack1.push(c);
+		cout<<"holding track "<<1<<" hold car "<<c<<endl;
+		cout<<endl;
+		//cout<<"push "<<c<<" into stack 1"<<endl;
+		//cout<<stack1.top()<<endl;
+		return result;
+	}
+	if (stack1.top() < c)
+	{
+		while ((stack1.top() < c) &&(stack1.top() != 0))
+		{
+			//cout<<"push "<<stack1.top()<<" into stack 2"<<endl;
+			cout<<"holding track "<<2<<" hold car "<<stack1.top()<<endl;
+			stack2.push(stack1.pop());
+			
+			stack_number = 2;
+		}
+		stack1.push(c);
+		cout<<"holding track "<<1<<" hold car "<<c<<endl;
+		//cout<<"push "<<c<<" into stack 1"<<endl;
+		while (stack2.empty() == false)
+		{
+			//cout<<"push "<<stack2.top()<<" fromo stack 2 into stack 1"<<endl;
+			cout<<"holding track "<<1<<" hold car "<<stack2.top()<<endl;
+			stack1.push(stack2.pop());
+		}
+		cout<<endl;
+	}
+	//cout<<endl;
+	//stack1.traverse();
+	//while(stack1.empty() == false)
+	//{
+	//	cout<<
 
 
 
 
 
+
+//~~~~~~~~~~~~~~~~~wrong~~~~~~~~~~~~~
 	////首先遍历stack看有没有空的。
 	//for (int i = 0; i < stack.size(); i++)
 	//{
@@ -342,7 +438,7 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 			if (result.size() == numberofCars)
 			{
 				success = true;
-				cout<<"successful!"<<endl;
+				//cout<<"successful!"<<endl;
 				for (int i = 0; i < procedure.size(); i++)
 				{
 					cout<<procedure[i]<<endl;
@@ -367,15 +463,33 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 
 int main()
 {
-	int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9}; //4
+	int carnumber;
+	int stacknumber;
+	
+	//int cars[9];
+	//int cars[9] = {7, 6, 1, 5, 4, 3, 2, 8, 9}; //4
 	//int cars[9] = {7, 5, 3, 4, 1, 2, 6, 9, 8};
 	//int cars[9] = {1, 9, 8, 7, 6, 5, 4, 3, 2};
 	 //int cars[9] = {7, 5, 1, 4, 9, 3, 2, 8, 6};  //3
 	//int cars[9] = {9,9,9,9,9,9,9};
 	 //int cars[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	//int cars[9] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
 	//int cars[4] = {7, 6, 1, 5};
-	Railroad(cars, 9, 4);
-
+	ifstream inputfile("input.txt");
+	inputfile>>carnumber;
+	cout<<carnumber;
+	inputfile>>stacknumber;
+	cout<<stacknumber;
+	int *cars = new int[carnumber];
+	for (int i = 0; i < carnumber; i++)
+	{
+		inputfile>>cars[i];
+	}
+	Railroad(cars, carnumber, stacknumber);
+	//for (int i = 0; i < 9; i++)
+	//{
+	//	putinHold(cars[i]);
+	//}
 	//fstream file("input.txt");
 	////fstream file("input2.txt");
 	//if (!file)
@@ -418,7 +532,7 @@ int main()
 	//	//cout<<"car: "<<c<<endl;
 	//	//Railroad(cn, cn, sn);
 	//}
-
+	cout<<stack_number<<" stack we use."<<endl;
 	//file.close();
 	system("pause");
 	return 0;

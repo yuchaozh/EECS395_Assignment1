@@ -104,7 +104,7 @@ int LinkedStack::pop()
 	conductor = first;
 	if (empty() == true)
 	{
-		cout<<"no node (top)"<<endl;
+		//cout<<"no node (top)"<<endl;
 	}
 	else
 	{

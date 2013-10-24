@@ -199,6 +199,6 @@ int main()
 		inputfile>>cars[i];
 	}
 	Railroad(cars, carnumber, stacknumber);
-	system("pause");
+	//system("pause");
 	return 0;
 }

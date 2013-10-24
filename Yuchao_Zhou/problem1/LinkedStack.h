@@ -12,7 +12,7 @@ class LinkedStack
 public:
 	LinkedStack();
 	~LinkedStack();
-	LinkedStack(LinkedStack& other);
+	LinkedStack(const LinkedStack& other);
 	void push(int num);
 	int pop();
 	bool empty();

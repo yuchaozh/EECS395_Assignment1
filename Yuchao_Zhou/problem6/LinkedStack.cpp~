@@ -4,6 +4,7 @@
  *Time: 10/16/2013
  */
 #include "LinkedStack.h"
+#include <assert.h>
 #include <iostream>
 
 using namespace std;
@@ -23,44 +24,34 @@ LinkedStack::~LinkedStack()
 	while (current)
 	{
 		to_free = current;
-		//node *to_free = current;
 		current = current->next;
 		delete to_free;
 	}
 }
 
 //constructor
-LinkedStack::LinkedStack(LinkedStack& other)
+LinkedStack::LinkedStack(const LinkedStack& other)
 {
-	cout<<"not implement"<<endl;
+	first = new node();
+	first -> next = NULL;
+	//cout<<"not implement"<<endl;
 }
+
 
 //insert element num
 void LinkedStack::push(int num)
 {
 	node* conductor;
 	conductor = first;
-	//if (conductor -> next== NULL)
-	//{
-	//	node* add;
-	//	add = new node();
-	//	add -> d = num;
-	//	add -> next = NULL;
-	//	conductor -> next = add;
-	//}
-	//else
-	//{
-
-		while (conductor -> next != 0)
-		{
-			conductor = conductor -> next;
-		}
-		node* add;
-		add = new node();
-		add -> d = num;
-		add -> next = NULL;
-		conductor -> next = add;
-	//}
+	while (conductor -> next != 0)
+	{
+		conductor = conductor -> next;
+	}
+	node* add;
+	add = new node();
+	add -> d = num;
+	add -> next = NULL;
+	conductor -> next = add;
 }
 
 //return the element at the top
@@ -70,7 +61,7 @@ int LinkedStack::top()
 	conductor = first;
 	if (empty() == true)
 	{
-		//cout<<"the stack is empty"<<endl;
+
 	}
 	else
 	{
@@ -85,6 +76,7 @@ int LinkedStack::top()
 //return a boolean value indicating whether no elements are stored
 bool LinkedStack::empty()
 {
+	assert(first!=NULL);
 	if (first -> next == NULL)
 	{
 		return true;
@@ -104,7 +96,7 @@ int LinkedStack::pop()
 	conductor = first;
 	if (empty() == true)
 	{
-		//cout<<"no node (top)"<<endl;
+		
 	}
 	else
 	{
@@ -130,13 +122,3 @@ void LinkedStack::traverse()
 	}
 }
 
-//int main()
-//{
-//	LinkedStack stack;
-//	stack.push(2);
-//	stack.push(9);
-//	stack.traverse();
-//
-//	system("pause");
-//	return 0;
-//}

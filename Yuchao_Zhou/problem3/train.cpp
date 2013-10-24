@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include<sstream>
+#include <sstream>
 #include "LinkedStack.h"
 
 using namespace std;
@@ -27,7 +27,7 @@ LinkedStack stack1;
 LinkedStack stack2;
 int stack_number = 0;
 
-//change int type into string type
+//change int type into string
 string int_string(int num)
 {
 	stringstream ss;
@@ -36,68 +36,93 @@ string int_string(int num)
 	return s;
 }
 
-//output number from holding tack
+//outputs instructions to ove a car from a holding track to the output track.
 bool outputFromHoldTrack(int tNumber)
 {
 	output = false;
 	int once = 0;
 	targetNumber = tNumber;
-	int posible = stack1.top();
-	if (posible == targetNumber)
+	for (int i = 0; i < stack.size(); i++)
 	{
-		str = "Move car " + int_string(posible) + " from holding track 1 to output";
-		procedure.push_back(str);
-		result.push_back(stack1.pop());
-		targetNumber++;
-		output = true;
-		once = 1;
+		int posible = stack[i].top();
+		if (posible == targetNumber)
+		{
+			str = "Move car " + int_string(posible) + " from holding track " + int_string(i) + " to output";
+			procedure.push_back(str);
+			result.push_back(stack[i].pop());
+			targetNumber++;
+			output = true;
+			once = 1;
+		}
 	}
 	return output;
 }
-		
-//put numbers from input into holding tracks
+
+//moves car c from the input track to one of the holding tracks if possible, else it return false.
 bool putinHold(int c)
 {
+	vector<int> temp;
+	int contain = 0;
+	bool notfull = true;
+	int notFullSlut = 0;
+	int slut = 0;
+	int smallest = 0;
 	bool result = true;
-	if (stack1.top() == 0)
+	int finish = false;
+
+	//whether the stack size is full or not
+	if (contain == stack.size())
 	{
-		stack1.push(c);
-		stack_number = 1;
-		cout<<"holding track "<<1<<" hold car "<<c<<endl;
-		cout<<endl;
-		return result;
+		notfull == false;
 	}
-	//if the input number is smaller than top, then push it into that stack
-	if (stack1.top() > c)
+	else
 	{
-		stack1.push(c);
-		cout<<"holding track "<<1<<" hold car "<<c<<endl;
-		cout<<endl;
-		return result;
+		notfull == true;
 	}
-	//else push the number which are smaller than the number into another stack, and push them back.
-	if (stack1.top() < c)
+	//if stack is empty, then push
+	if (stack[0].top() == 0)
 	{
-		while ((stack1.top() < c) &&(stack1.top() != 0))
+		stack[0].push(c);
+		contain++;
+		str = "holding track 0 hold car "+int_string(c);
+		procedure.push_back(str);
+	}
+	else  
+	//judege wheter the number is bigger than the top. 
+	//if it does then compare it with next stack, else push it into current stack.
+	{
+		for (int i = 0; i < stack.size(); i++)
 		{
-			cout<<"holding track "<<2<<" hold car "<<stack1.top()<<endl;
-			stack2.push(stack1.pop());
-			
-			stack_number = 2;
+			if (stack[i].top() != 0)
+			{
+				contain++;
+			}
 		}
-		stack1.push(c);
-		cout<<"holding track "<<1<<" hold car "<<c<<endl;
-		while (stack2.empty() == false)
+		for (int i = 0; i < contain; i++)
 		{
-			cout<<"holding track "<<1<<" hold car "<<stack2.top()<<endl;
-			stack1.push(stack2.pop());
+			if (i == (contain - 1))
+					finish = true;
+			//if it is small then top, then push
+			if (c < stack[i].top())
+			{
+				stack[i].push(c);
+				str = "holding track " + int_string(i) + " hold car " + int_string(c);
+				procedure.push_back(str);
+				break;
+			}
+			else if ((finish == true) && (contain < stack.size()))
+			{
+				stack[contain].push(c);
+				contain++;
+				str = "holding track " + int_string(contain -1) + " hold car " + int_string(c);
+				procedure.push_back(str);
+				break;
+			}
 		}
-		cout<<endl;
 	}
 	return result;
 }
 
-//main function of sorting.
 bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 {
 	int totle = numberofCars;
@@ -115,13 +140,13 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 	while (carNumber > 0)
 	{
 		int currentNumber = inputOrder[carNumber - 1];
-		//if currentNumber is not equal to targetNumber, then put it into stack
+		//if currentNumber is not equal to targetNumber£¬then put it into stack
 		if (currentNumber != targetNumber)
 		{
 			putinHold(currentNumber);
 			carNumber--;
 		}
-		//put currentNumber into output and look up the next number in stack and input
+		//put currentNumber into output£¬and look up the next number in stack and input
 		else
 		{
 			str = "Move car "+ int_string(currentNumber) + " from input to output ";
@@ -135,7 +160,7 @@ bool Railroad (int inputOrder[], int numberofCars, int numberofTracks)
 				outputFromHoldTrack(targetNumber);
 			}
 		}
-		//judge whether the procedure can output the sorted number
+		//judge whether the program can sort the permutation or not
 		if (carNumber == 0)
 		{
 			if (result.size() == numberofCars)
@@ -165,8 +190,6 @@ int main()
 {
 	int carnumber;
 	int stacknumber;
-
-	//read data from txt file
 	ifstream inputfile("input2.txt");
 	inputfile>>carnumber;
 	inputfile>>stacknumber;
@@ -175,9 +198,6 @@ int main()
 	{
 		inputfile>>cars[i];
 	}
-
 	Railroad(cars, carnumber, stacknumber);
-	cout<<stack_number<<" stack we use."<<endl;
-	system("pause");
 	return 0;
 }

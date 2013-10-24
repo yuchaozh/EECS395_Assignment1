@@ -4,7 +4,7 @@
  */
 #ifndef WORKSPACE_LINKEDSTACK_H
 #define WORKSPACE_LINKEDSTACK_H
-
+#include <assert.h>
 #include "Node.h"
 class LinkedStack
 {
@@ -12,7 +12,7 @@ class LinkedStack
 public:
 	LinkedStack();
 	~LinkedStack();
-	LinkedStack(LinkedStack& other);
+	LinkedStack(const LinkedStack& other);
 	void push(int num);
 	int pop();
 	bool empty();

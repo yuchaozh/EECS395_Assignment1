@@ -29,10 +29,13 @@ LinkedStack::~LinkedStack()
 }
 
 //constructor
-LinkedStack::LinkedStack(LinkedStack& other)
+LinkedStack::LinkedStack(const LinkedStack& other)
 {
-	cout<<"not implement"<<endl;
+	first = new node();
+	first -> next = NULL;
+	//cout<<"not implement"<<endl;
 }
+
 
 //insert element num
 void LinkedStack::push(int num)
@@ -72,6 +75,7 @@ int LinkedStack::top()
 //return a boolean value indicating whether no elements are stored
 bool LinkedStack::empty()
 {
+	assert(first!=NULL);
 	if (first -> next == NULL)
 	{
 		return true;
